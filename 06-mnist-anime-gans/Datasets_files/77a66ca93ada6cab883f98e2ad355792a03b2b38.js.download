@@ -1,0 +1,88 @@
+(function() {
+  if ('Discourse' in window && Discourse.__container__) {
+    Discourse.__container__
+      .lookup("service:theme-settings")
+      .registerSettings(11, {"show_description":true,"show_mobile":true,"show_subcategory":true,"hide_if_no_description":true,"exceptions":""});
+  }
+})();
+(function() {
+  if ('Ember' in window) {
+    Ember.TEMPLATES["/connectors/below-site-header/category-header-widget"] = Ember.HTMLBars.template({"id":null,"block":"{\"symbols\":[],\"statements\":[[0,\"\\n  \"],[1,[28,\"mount-widget\",null,[[\"widget\"],[\"category-header-widget\"]]],false],[0,\"\\n\"]],\"hasEval\":false}","meta":{}});
+  }
+})();
+(function () {
+    if ('Discourse' in window && typeof Discourse._registerPluginCode === 'function') {
+        var __theme_name__ = "discourse-category-banners-2";
+        var settings = Discourse.__container__.lookup("service:theme-settings").getObjectForTheme(11);
+        var themePrefix = function themePrefix(key) {
+            return 'theme_translations.11.' + key;
+        };
+
+        Discourse._registerPluginCode('0.8', function (api) {
+            try {
+
+                var container = Discourse.__container__;
+
+                var _require = require('virtual-dom'),
+                    h = _require.h;
+
+                var _require2 = require("discourse-common/lib/icon-library"),
+                    iconNode = _require2.iconNode;
+
+                var lockIcon = iconNode('lock');
+
+                api.createWidget('category-header-widget', {
+                    tagName: 'span',
+                    html: function html(attrs, state) {
+
+                        var path = window.location.pathname;
+                        var category = void 0;
+
+                        var controller = container.lookup('controller:navigation/category');
+                        category = controller.get("category");
+
+                        var isException = category && settings.exceptions.split("|").includes(category.name);
+
+                        var categoryPathChecker = new RegExp("^" + Discourse.BaseUri + "\\/c\\/");
+                        if (categoryPathChecker.test(path)) {
+                            var hideMobile = !settings.show_mobile && this.site.mobileView ? "true" : hideMobile;
+                            var subCat = !settings.show_subcategory && category.parentCategory ? "true" : subCat;
+                            var noDesc = settings.hide_if_no_description && !category.description_text ? "true" : noDesc;
+
+                            if (!isException && !noDesc && !subCat && !hideMobile) {
+                                var catDesc = function catDesc() {
+                                    if (settings.show_description) {
+                                        return h('div.cooked', { innerHTML: category.description });
+                                    }
+                                };
+
+                                var ifProtected = function ifProtected() {
+                                    if (category.read_restricted) {
+                                        return lockIcon;
+                                    }
+                                };
+
+                                $("body").addClass("category-header");
+
+                                return h('div.category-title-header' + " .category-banner-" + category.slug, {
+                                    "attributes": {
+                                        "style": "background-color: #" + category.color + "; color: #" + category.text_color + ";"
+                                    }
+                                }, h('div.category-title-contents', [ifProtected(), h('h1', category.name), h('div.category-title-description', catDesc())]));
+                            }
+                        } else {
+                            $("body").removeClass("category-header");
+                        }
+                    }
+                }), api.decorateWidget('category-header-widget:after', function (helper) {
+                    helper.widget.appEvents.on('page:changed', function () {
+                        helper.widget.scheduleRerender();
+                    });
+                });
+            } catch (err) {
+                var rescue = require("discourse/lib/utilities").rescueThemeError;
+                rescue(__theme_name__, err, api);
+            }
+        });
+    }
+})();

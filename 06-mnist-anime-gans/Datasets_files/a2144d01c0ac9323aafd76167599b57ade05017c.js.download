@@ -1,0 +1,24 @@
+define("discourse/pre-initializers/theme-6-translations", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = {
+    name: "theme-6-translations",
+    initialize: function initialize() {
+      /* Translation data for theme 6 (en)*/
+      var data = { "en": { "close": { "title": "Close the banner", "label": "Close" }, "toggle": { "title": "Expand/Collapse the banner", "collapse_label": "Collapse", "expand_label": "Expand" } } };
+
+      for (var lang in data) {
+        var cursor = I18n.translations;
+        var _arr = [lang, "js", "theme_translations"];
+        for (var _i = 0; _i < _arr.length; _i++) {
+          var key = _arr[_i];
+          cursor = cursor[key] = cursor[key] || {};
+        }
+        cursor[6] = data[lang];
+      }
+    }
+  };
+});

@@ -1,0 +1,24 @@
+define("discourse/pre-initializers/theme-16-translations", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = {
+    name: "theme-16-translations",
+    initialize: function initialize() {
+      /* Translation data for theme 16 (en)*/
+      var data = { "en": { "search_banner": { "headline": "Welcome to our community", "subhead": "We're happy to have you here. If you need help, please search before you post." } }, "en_US": { "search_banner": { "headline": "Welcome to Jovian.ml Community" } } };
+
+      for (var lang in data) {
+        var cursor = I18n.translations;
+        var _arr = [lang, "js", "theme_translations"];
+        for (var _i = 0; _i < _arr.length; _i++) {
+          var key = _arr[_i];
+          cursor = cursor[key] = cursor[key] || {};
+        }
+        cursor[16] = data[lang];
+      }
+    }
+  };
+});
