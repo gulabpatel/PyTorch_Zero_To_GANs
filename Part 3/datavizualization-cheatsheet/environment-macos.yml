@@ -1,0 +1,29 @@
+channels:
+- defaults
+dependencies:
+- pip:
+  - appnope==0.1.0
+  - click==7.1.1
+  - cycler==0.10.0
+  - ipython==7.9.0
+  - ipython-genutils==0.2.0
+  - jovian==0.2.6
+  - jupyter-client==6.1.3
+  - jupyter-console==6.1.0
+  - jupyter-core==4.6.3
+  - kiwisolver==1.1.0
+  - matplotlib==3.0.3
+  - pandas==0.25.3
+  - prometheus-client==0.7.1
+  - prompt-toolkit==2.0.10
+  - pyparsing==2.4.7
+  - python-dateutil==2.8.1
+  - pytz==2019.3
+  - pyyaml==5.3.1
+  - qtconsole==4.7.2
+  - qtpy==1.9.0
+  - scipy==1.4.1
+  - seaborn==0.9.1
+  - uuid==1.30
+name: dataviz
+prefix: /Users/aakashns/miniconda3/envs/dataviz
